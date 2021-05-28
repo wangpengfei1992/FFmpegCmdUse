@@ -22,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         mContext = this
         var changeText = findViewById<TextView>(R.id.start)
         changeText.setOnClickListener {
+
             if (initPermission()){
                 var soundPath = "/storage/emulated/0/opusaudiodemo/recorder_file/"+ "recorder.pcm"
                 Log.e("wpf", "pcm路径:$soundPath")

@@ -27,12 +27,43 @@ add_library( # Sets the name of the library.
 
         src/main/cpp/ffmpeg_thread.c)
 
-add_library( ffmpeg
+set(ffmpeg_lib_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/ffmpeg_lib/${ANDROID_ABI})
+add_library( libavcodec
         SHARED
         IMPORTED )
-set_target_properties( ffmpeg
+set_target_properties( libavcodec
         PROPERTIES IMPORTED_LOCATION
-        ../../../../libs/armeabi-v7a/libffmpeg.so )
+        ${ffmpeg_lib_DIR}/libavcodec.so)
+add_library( libavfilter
+        SHARED
+        IMPORTED )
+set_target_properties( libavfilter
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_DIR}/libavfilter.so)
+add_library( libavformat
+        SHARED
+        IMPORTED )
+set_target_properties( libavformat
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_DIR}/libavformat.so)
+add_library( libavutil
+        SHARED
+        IMPORTED )
+set_target_properties( libavutil
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_DIR}/libavutil.so )
+add_library( libswresample
+        SHARED
+        IMPORTED )
+set_target_properties( libswresample
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_DIR}/libswresample.so )
+add_library( libswscale
+        SHARED
+        IMPORTED )
+set_target_properties( libswscale
+        PROPERTIES IMPORTED_LOCATION
+        ${ffmpeg_lib_DIR}/libswscale.so )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
@@ -46,7 +77,12 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         ffmpeg-cmd
-        ffmpeg
+        libavcodec
+        libavfilter
+        libavformat
+        libavutil
+        libswresample
+        libswscale
         -landroid #native_window
         -ljnigraphics #bitmap
         -lOpenSLES #openSLES
